@@ -11,12 +11,10 @@
       --amarillo:#FFE94D;--verde:#2ECC8A;--rojo:#FF4D6D;
       --fondo:#0A0618;--fondo2:#100C24;--fondo3:#130E28;
       --blanco:#FFFFFF;--texto:#E8E0FF;
-      /* ---> AJUSTE WCAG 2.1 AA: Contraste de gris elevado de .55 a .72 <--- */
       --gris:rgba(255,255,255,.72);
     }
     *,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
 
-    /* ---> FOCO DE ACCESIBILIDAD UNIVERSAL (WCAG 2.1) <--- */
     :focus-visible {
       outline: 2px solid var(--amarillo);
       outline-offset: 3px;
@@ -199,43 +197,6 @@
     .ac-3 .activ-badge{background:rgba(255,233,77,.1);color:var(--amarillo);}
     .ac-4 .activ-badge{background:rgba(155,109,255,.1);color:var(--purp2);}
 
-    /* VIDEO PITCH */
-    .pitch-section{background:radial-gradient(ellipse 70% 60% at 50% 40%,rgba(255,233,77,.08) 0%,transparent 60%),radial-gradient(ellipse 50% 50% at 20% 80%,rgba(108,60,225,.15) 0%,transparent 55%),var(--fondo3);padding:5rem 2rem;text-align:center;position:relative;overflow:hidden;}
-    .pitch-section::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,rgba(255,233,77,.4),transparent);}
-    .pitch-inner{max-width:920px;margin:0 auto;background:rgba(255,255,255,.025);border:1px solid rgba(255,233,77,.2);border-radius:28px;padding:3rem 2.5rem;position:relative;overflow:hidden;}
-    .pitch-inner::after{content:'🎬';position:absolute;right:2rem;top:1.5rem;font-size:5rem;opacity:.07;pointer-events:none;}
-    .pitch-label{display:inline-block;font-family:'Nunito',sans-serif;font-weight:800;font-size:.72rem;letter-spacing:3px;text-transform:uppercase;color:var(--amarillo);margin-bottom:.8rem;background:rgba(255,233,77,.1);border:1px solid rgba(255,233,77,.3);padding:.3rem 1rem;border-radius:20px;}
-    .pitch-inner h2{font-family:'Nunito',sans-serif;font-weight:900;font-size:clamp(1.5rem,3.5vw,2.2rem);color:var(--blanco);margin-bottom:.5rem;}
-    .pitch-inner h2 span{color:var(--amarillo);}
-    .pitch-desc{color:rgba(255,255,255,.65);font-size:.97rem;line-height:1.8;margin-bottom:2rem;max-width:620px;margin-left:auto;margin-right:auto;}
-    .pitch-desc strong{color:var(--cian);}
-
-    /* VIDEO EMBED */
-    .pitch-video-wrap{position:relative;margin:0 auto 2rem;max-width:640px;border-radius:18px;overflow:hidden;border:2px solid rgba(255,233,77,.25);box-shadow:0 0 40px rgba(255,233,77,.1),0 16px 48px rgba(0,0,0,.5);}
-    .pitch-video-wrap::before{content:'';display:block;padding-top:56.25%;}
-    .pitch-video-wrap iframe{position:absolute;top:0;left:0;width:100%;height:100%;border:none;}
-    .pitch-video-label{display:inline-flex;align-items:center;gap:.5rem;font-family:'Nunito',sans-serif;font-weight:700;font-size:.75rem;color:rgba(255,255,255,.45);letter-spacing:1px;text-transform:uppercase;margin-bottom:.8rem;}
-    .pitch-video-label span{width:8px;height:8px;border-radius:50%;background:var(--rojo);animation:pulseDot 1.5s infinite;}
-
-    .pitch-cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:1.2rem;margin-bottom:2rem;}
-    .pitch-card{background:rgba(255,255,255,.04);border:1px solid rgba(255,233,77,.12);border-radius:16px;padding:1.4rem 1rem;text-align:center;transition:transform .25s,box-shadow .25s;}
-    .pitch-card:hover{transform:translateY(-4px);box-shadow:0 10px 28px rgba(255,233,77,.1);}
-    .pitch-card .pc-icon{font-size:1.8rem;margin-bottom:.6rem;display:block;}
-    .pitch-card h5{font-family:'Nunito',sans-serif;font-weight:800;color:var(--amarillo);font-size:.88rem;margin-bottom:.3rem;}
-    .pitch-card p{font-size:.77rem;color:var(--gris);line-height:1.55;}
-
-    .pitch-temas{background:rgba(255,233,77,.05);border:1px solid rgba(255,233,77,.2);border-radius:16px;padding:1.4rem 1.6rem;margin-bottom:1.8rem;text-align:left;}
-    .pitch-temas h5{font-family:'Nunito',sans-serif;font-weight:800;color:var(--amarillo);font-size:.8rem;text-transform:uppercase;letter-spacing:1.5px;margin-bottom:.85rem;display:flex;align-items:center;gap:.5rem;}
-    .pitch-temas-list{display:flex;flex-wrap:wrap;gap:.6rem;}
-    .tema-chip{font-family:'Nunito',sans-serif;font-weight:700;font-size:.78rem;background:rgba(255,233,77,.1);border:1px solid rgba(255,233,77,.25);color:rgba(255,255,255,.8);padding:.3rem .9rem;border-radius:20px;display:flex;align-items:center;gap:.35rem;transition:all .2s;}
-    .tema-chip:hover{background:rgba(255,233,77,.2);border-color:rgba(255,233,77,.5);transform:scale(1.04);}
-    .tema-chip::before{content:"▸";color:var(--amarillo);}
-
-    .pitch-criterios{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:.8rem;text-align:left;}
-    .criterio-item{display:flex;align-items:flex-start;gap:.6rem;font-size:.82rem;color:rgba(255,255,255,.7);line-height:1.5;}
-    .criterio-item .ci-dot{width:7px;height:7px;border-radius:50%;background:var(--verde);flex-shrink:0;margin-top:5px;}
-    .criterio-item strong{color:var(--blanco);font-family:'Nunito',sans-serif;}
-
     /* REFLEXIÓN */
     .reflexion-section{background:var(--fondo3);padding:4rem 2rem;text-align:center;}
     .reflexion-preguntas{display:flex;flex-wrap:wrap;justify-content:center;gap:1.2rem;max-width:880px;margin:1.2rem auto 0;}
@@ -253,7 +214,6 @@
       .ruta-item{width:80px;}
       .ruta-num{width:52px;height:52px;font-size:1.1rem;}
       .stats-bar{gap:1.5rem;}
-      .pitch-inner{padding:2rem 1.2rem;}
       .metodo-secuencia{gap:.4rem;}
     }
   </style>
@@ -271,7 +231,6 @@
     <div class="obj-pill" role="listitem">Recta numérica y comparación</div>
     <div class="obj-pill" role="listitem">Ley de signos y operaciones</div>
     <div class="obj-pill" role="listitem">Aplicaciones en la vida real</div>
-    <div class="obj-pill" role="listitem">Video pitch académico 🎬</div>
   </div>
   <p class="hero-eyebrow">MÓDULO INTERACTIVO</p>
   <h1>
@@ -387,7 +346,7 @@
     <div class="metodo-card mc-3"><span class="mc-icon">🌍</span><h4>Contextualización</h4><p>Cada concepto se conecta con situaciones reales: deudas, temperatura, altitud, elevadores y pisos.</p></div>
     <div class="metodo-card mc-4"><span class="mc-icon">💻</span><h4>Mediación TIC</h4><p>GeoGebra, Kahoot, Genially y simuladores interactivos como herramientas de aprendizaje digital.</p></div>
     <div class="metodo-card mc-5"><span class="mc-icon">🔁</span><h4>Retroalimentación inmediata</h4><p>Cada respuesta genera un comentario instantáneo que orienta el aprendizaje.</p></div>
-    <div class="metodo-card mc-6"><span class="mc-icon">🏆</span><h4>Evaluación formativa</h4><p>Quiz con criterios transparentes y evidencia de aprendizaje mediante el video pitch.</p></div>
+    <div class="metodo-card mc-6"><span class="mc-icon">🏆</span><h4>Evaluación formativa</h4><p>Quiz con criterios transparentes y evidencia de aprendizaje.</p></div>
   </div>
   <p class="section-sub" style="margin-bottom:.8rem;margin-top:.5rem;">Secuencia didáctica</p>
   <div class="metodo-secuencia" role="list" aria-label="Secuencia de aprendizaje">
@@ -395,8 +354,7 @@
     <div class="mseq-paso" role="listitem">📖 Teoría interactiva</div><span class="mseq-arrow" aria-hidden="true">›</span>
     <div class="mseq-paso" role="listitem">🎮 Práctica guiada</div><span class="mseq-arrow" aria-hidden="true">›</span>
     <div class="mseq-paso" role="listitem">🌍 Aplicación real</div><span class="mseq-arrow" aria-hidden="true">›</span>
-    <div class="mseq-paso" role="listitem">🏆 Evaluación</div><span class="mseq-arrow" aria-hidden="true">›</span>
-    <div class="mseq-paso" role="listitem">🎬 Video Pitch</div>
+    <div class="mseq-paso" role="listitem">🏆 Evaluación</div>
   </div>
 </section>
 
@@ -425,52 +383,6 @@
       <span class="ac-icon">🧩</span><h4>Retos de toma de decisiones</h4>
       <p>Resuelve problemas abiertos donde debes elegir el entero correcto: deudas, ascensores, goles a favor y en contra.</p>
       <span class="activ-badge">Pensamiento crítico</span>
-    </div>
-  </div>
-</section>
-
-<!-- VIDEO PITCH ACADÉMICO -->
-<section class="pitch-section" aria-label="Video pitch académico">
-  <div class="pitch-inner">
-    <div class="pitch-label">🎬 Producto final del módulo</div>
-    <h2>Video Pitch <span>Académico</span></h2>
-    <p class="pitch-desc">Tu misión final: grabar un <strong>video corto de 1 a 2 minutos</strong> donde expliques cómo aplicas los números enteros en una situación de la vida real. ¡No necesitas ser perfecto, necesitas ser claro y convincente!</p>
-
-    <!-- ▶ VIDEO YOUTUBE INTEGRADO -->
-    <div class="pitch-video-label">
-      <span></span> Video pitch académico
-    </div>
-    <div class="pitch-video-wrap">
-      <iframe iframe width="560" height="315" src="https://www.youtube.com/embed/RvcxkaTbwEM?si=o_GMyOrUm3sPYGBO" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
-    </div>
-
-    <div class="pitch-cards">
-      <div class="pitch-card"><span class="pc-icon">⏱️</span><h5>Duración</h5><p>1 a 2 minutos. Directo, claro y con ejemplo concreto.</p></div>
-      <div class="pitch-card"><span class="pc-icon">🎯</span><h5>Propósito</h5><p>Demostrar que entiendes cómo los enteros resuelven problemas reales.</p></div>
-      <div class="pitch-card"><span class="pc-icon">📱</span><h5>Formato</h5><p>Video grabado con celular, Loom, Canva o cualquier herramienta digital.</p></div>
-      <div class="pitch-card"><span class="pc-icon">📤</span><h5>Entrega</h5><p>Comparte el enlace con tu docente según las instrucciones del aula virtual.</p></div>
-    </div>
-
-    <div class="pitch-temas">
-      <h5>🌍 Temas sugeridos para tu pitch</h5>
-      <div class="pitch-temas-list">
-        <span class="tema-chip">Temperatura bajo cero</span>
-        <span class="tema-chip">Deudas y ahorros</span>
-        <span class="tema-chip">Pisos de un edificio</span>
-        <span class="tema-chip">Altitud y profundidad</span>
-        <span class="tema-chip">Goles a favor y en contra</span>
-        <span class="tema-chip">Subidas y bajadas de precios</span>
-        <span class="tema-chip">Coordenadas en mapas</span>
-        <span class="tema-chip">Cronología histórica</span>
-      </div>
-    </div>
-
-    <p style="font-family:'Nunito',sans-serif;font-weight:800;font-size:.8rem;color:rgba(255,255,255,.5);text-transform:uppercase;letter-spacing:1.5px;margin-bottom:.9rem;">Criterios de evaluación</p>
-    <div class="pitch-criterios">
-      <div class="criterio-item"><span class="ci-dot"></span><span><strong>Claridad conceptual</strong> — Explica correctamente qué son los enteros y cómo funcionan en el contexto elegido.</span></div>
-      <div class="criterio-item"><span class="ci-dot"></span><span><strong>Ejemplo concreto</strong> — Presenta al menos un caso real con números específicos.</span></div>
-      <div class="criterio-item"><span class="ci-dot"></span><span><strong>Coherencia matemática</strong> — Usa los signos, la recta o las operaciones de forma correcta.</span></div>
-      <div class="criterio-item"><span class="ci-dot"></span><span><strong>Expresión y fluidez</strong> — Habla con seguridad, explica paso a paso y el mensaje se entiende.</span></div>
     </div>
   </div>
 </section>
