@@ -14,7 +14,6 @@
     }
     *,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
     
-    /* ---> FOCO DE ACCESIBILIDAD UNIVERSAL (WCAG 2.1) <--- */
     :focus-visible {
       outline: 2px solid var(--amarillo);
       outline-offset: 3px;
@@ -39,7 +38,6 @@
     .modal-title{font-family:'Nunito',sans-serif;font-weight:900;color:var(--blanco);font-size:1.45rem;margin-bottom:.3rem;}
     .modal-title span{color:var(--amarillo);}
     .modal-text{color:rgba(255,255,255,.72);font-size:.9rem;line-height:1.6;margin-bottom:1rem;}
-    /* ── OBJETIVOS MODAL ── */
     .modal-objetivos{background:rgba(108,60,225,.12);border:1px solid rgba(108,60,225,.4);border-radius:14px;padding:.9rem 1.1rem;margin-bottom:1.3rem;text-align:left;}
     .modal-objetivos h4{font-family:'Nunito',sans-serif;font-weight:800;color:var(--cian);font-size:.78rem;text-transform:uppercase;letter-spacing:1px;margin-bottom:.55rem;}
     .modal-objetivos h4+h4{margin-top:.7rem;}
@@ -48,7 +46,6 @@
     .modal-objetivos li{font-size:.83rem;color:rgba(255,255,255,.8);display:flex;align-items:flex-start;gap:.5rem;}
     .modal-objetivos li::before{content:"▸";color:var(--cian);font-weight:900;flex-shrink:0;}
     .modal-obj-divider{border:none;border-top:1px dashed rgba(108,60,225,.35);margin:.75rem 0;}
-    /* ── FIN OBJETIVOS MODAL ── */
     .modal-divider{border:none;border-top:1px solid rgba(255,255,255,.08);margin:.4rem 0 1.1rem;}
     .modal-label{display:block;font-family:'Nunito',sans-serif;font-weight:700;color:var(--cian);font-size:.78rem;text-transform:uppercase;letter-spacing:1px;margin-bottom:.5rem;text-align:left;}
     .modal-input{width:100%;padding:12px 16px;background:rgba(255,255,255,.06);border:2px solid rgba(108,60,225,.5);border-radius:12px;font-family:'Space Grotesk',sans-serif;font-size:1rem;color:var(--blanco);outline:none;transition:border-color .3s,box-shadow .3s,background .3s;text-align:center;margin-bottom:.5rem;}
@@ -133,21 +130,15 @@
       Completa las misiones, gana puntos y demuestra lo que sabes. 🚀</p>
 
     <div class="modal-objetivos" role="region" aria-label="Objetivos de aprendizaje">
-
-      <!-- OBJETIVO GENERAL -->
       <h4>🏆 Objetivo general</h4>
       <p>Recurso fundamentado en <strong style="color:var(--cian)">Design Thinking</strong> y mediado por TIC, diseñado en el marco de una <strong style="color:var(--amarillo)">Hackatón Pedagógica Virtual</strong> para fortalecer la comprensión de los números enteros mediante experiencias <strong style="color:var(--verde)">gamificadas, interactivas y significativas</strong>.</p>
-
       <hr class="modal-obj-divider"/>
-
-      <!-- MISIONES DEL MÓDULO -->
       <h4>🚀 Misiones del módulo</h4>
       <ul>
         <li>Identificar y clasificar los enteros en &#8484;</li>
         <li>Ubicarlos en la recta numérica y compararlos</li>
         <li>Sumar y restar con la ley de signos</li>
         <li>Aplicarlos en temperaturas, finanzas y altitudes</li>
-        <li>Crear tu <strong style="color:var(--amarillo)">video pitch</strong> con una aplicación real</li>
       </ul>
     </div>
 
@@ -278,11 +269,6 @@ window.addEventListener('unload', function() {
   if (scormAPI) { scormAPI.LMSCommit(""); scormAPI.LMSFinish(""); }
 });
 
-/* ════════════════════════════════════════════
-   GOOGLE SHEETS — URL ACTUALIZADA
-   Solo registra: inicio de módulo + evaluación completada
-   Aprobado: puntos_evaluacion >= 70
-════════════════════════════════════════════ */
 const SHEETS_URL = 'https://script.google.com/macros/s/AKfycbwADFi-vW_MbxXOz3_XFHeTxrZ60ZKh5jwnV8bVDxaGssnXKtLiBmnlb-DfLNcmJCCW/exec';
 
 function enviarASheets(tipo, datos) {
@@ -316,9 +302,6 @@ function mostrarSheetsBadge(msg) {
   b._t = setTimeout(() => b.classList.remove('visible'), 4500);
 }
 
-/* ════════════════════════════════════════════
-   ESTRELLAS
-════════════════════════════════════════════ */
 (function () {
   const c = document.getElementById('stars');
   for (let i = 0; i < 80; i++) {
@@ -333,9 +316,6 @@ function mostrarSheetsBadge(msg) {
   }
 })();
 
-/* ════════════════════════════════════════════
-   STORAGE
-════════════════════════════════════════════ */
 const SK = { estudiante: 'edu_estudiante', progreso: 'edu_progreso' };
 function leerLS(k)       { try { return localStorage.getItem(k); }         catch(e) { return null; } }
 function escribirLS(k,v) { try { localStorage.setItem(k,v); return true; } catch(e) { return false; } }
@@ -349,9 +329,6 @@ function mostrarToast(msg, dur=3000) {
   t._timer = setTimeout(() => t.classList.remove('visible'), dur);
 }
 
-/* ════════════════════════════════════════════
-   MODAL DE BIENVENIDA
-════════════════════════════════════════════ */
 function iniciarEstudiante() {
   const nombre = leerLS(SK.estudiante);
   if (!nombre) {
@@ -432,9 +409,6 @@ function resetearPerfil() {
   if (confirm(msg)) { borrarLS(SK.estudiante); borrarLS(SK.progreso); location.reload(); }
 }
 
-/* ════════════════════════════════════════════
-   PUNTOS NAVBAR
-════════════════════════════════════════════ */
 function actualizarPuntosNav() {
   const raw = leerLS(SK.progreso);
   if (!raw) return;
@@ -451,9 +425,6 @@ function actualizarPuntosNav() {
   } catch(e) {}
 }
 
-/* ════════════════════════════════════════════
-   PROGRESO NAVBAR
-════════════════════════════════════════════ */
 const ETAPAS = ['teoria', 'practica', 'evaluacion', 'recursos'];
 
 function actualizarProgresoNav() {
@@ -510,9 +481,6 @@ function marcarSeccionVisitada(id) {
   } catch(e) {}
 }
 
-/* ════════════════════════════════════════════
-   NAVEGACIÓN
-════════════════════════════════════════════ */
 let paginaActual = 'inicio';
 
 function showPage(id) {
@@ -547,9 +515,6 @@ function showPage(id) {
   });
 }
 
-/* ════════════════════════════════════════════
-   MENSAJES DESDE IFRAMES
-════════════════════════════════════════════ */
 window.addEventListener('message', e => {
   if (!e.data) return;
   const d = e.data;
