@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<manifest identifier="MisionZ_Enteros" version="1.0"
+          xmlns="http://www.imsproject.org/xsd/imscp_rootv1p1p2"
+          xmlns:adlcp="http://www.adlnet.org/xsd/adlcp_rootv1p2"
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:schemaLocation="http://www.imsproject.org/xsd/imscp_rootv1p1p2 imscp_rootv1p1p2.xsd
+                              http://www.imsglobal.org/xsd/imsmd_rootv1p2p1 imsmd_rootv1p2p1.xsd
+                              http://www.adlnet.org/xsd/adlcp_rootv1p2 adlcp_rootv1p2.xsd">
+  <metadata>
+    <schema>ADL SCORM</schema>
+    <schemaversion>1.2</schemaversion>
+    <!-- Metadatos básicos IEEE LOM -->
+    <lom xmlns="http://www.imsglobal.org/xsd/imsmd_rootv1p2p1">
+      <general>
+        <title><langstring xml:lang="es">Misión ℤ – Los Números Enteros</langstring></title>
+        <description><langstring xml:lang="es">Recurso educativo digital interactivo sobre los números enteros para grados 6° y 7° en Colombia.</langstring></description>
+        <keyword><langstring xml:lang="es">Matemáticas</langstring></keyword>
+        <keyword><langstring xml:lang="es">Números Enteros</langstring></keyword>
+      </general>
+    </lom>
+  </metadata>
+  <organizations default="ORG-MisionZ">
+    <organization identifier="ORG-MisionZ">
+      <title>Misión ℤ - Eduquémonos con TICs</title>
+      <item identifier="ITEM-1" identifierref="RES-1">
+        <title>Módulo Completo Misión ℤ</title>
+      </item>
+    </organization>
+  </organizations>
+  <resources>
+    <resource identifier="RES-1" type="webcontent" adlcp:scormtype="sco" href="index.html">
+      <file href="index.html"/>
+      <file href="inicio_numeros_enteros.html"/>
+      <file href="teoria-2-2.html"/>
+      <file href="practica-3.html"/>
+      <file href="evaluacion.html"/>
+      <file href="vida_real.html"/>
+      <file href="quienes_somos.html"/>
+      <file href="recursos.html"/>
+    </resource>
+  </resources>
+</manifest>
