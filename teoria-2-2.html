@@ -18,12 +18,10 @@
       --fondo3:   #130E28;
       --blanco:   #FFFFFF;
       --texto:    #E8E0FF;
-      /* ---> AJUSTE WCAG 2.1 AA: Contraste de gris elevado de .55 a .72 <--- */
       --gris:     rgba(255,255,255,.72);
     }
     *,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
     
-    /* ---> FOCO DE ACCESIBILIDAD UNIVERSAL (WCAG 2.1) <--- */
     :focus-visible {
       outline: 2px solid var(--amarillo);
       outline-offset: 3px;
@@ -426,19 +424,6 @@
       min-height:20px;transition:all .3s;line-height:1.5;}
     .mq-fb.ok{color:var(--verde);}
     .mq-fb.err{color:var(--rojo);}
-
-    /* ── BANNER PITCH ── */
-    .pitch-teoria-banner{
-      max-width:960px;margin:2rem auto 0;padding:0 1.5rem;}
-    .pth-inner{
-      background:linear-gradient(135deg,rgba(255,233,77,.05),rgba(108,60,225,.08));
-      border:1px solid rgba(255,233,77,.2);border-radius:16px;
-      padding:1.1rem 1.4rem;display:flex;align-items:center;gap:1.1rem;flex-wrap:wrap;}
-    .pth-inner .pth-icon{font-size:2rem;flex-shrink:0;}
-    .pth-inner h5{font-family:'Nunito',sans-serif;font-weight:900;
-      color:var(--amarillo);font-size:.9rem;margin-bottom:.2rem;}
-    .pth-inner p{font-size:.8rem;color:rgba(255,255,255,.6);line-height:1.55;}
-    .pth-inner strong{color:var(--cian);}
   </style>
 </head>
 <body>
@@ -854,17 +839,6 @@
     </div>
   </div>
 </section>
-
-<!-- BANNER PITCH -->
-<div class="pitch-teoria-banner">
-  <div class="pth-inner">
-    <span class="pth-icon">🎬</span>
-    <div>
-      <h5>¡Ya dominas la teoría! ¿Puedes explicársela a alguien más?</h5>
-      <p>Graba un <strong>video pitch de 1–2 minutos</strong> explicando qué son los enteros y para qué sirven. Usa ejemplos colombianos reales: temperatura, altitud, finanzas o fútbol.</p>
-    </div>
-  </div>
-</div>
 
 <div class="cta-final">
   <h2>¡Teoría <span>completada</span>! 🏆</h2>
