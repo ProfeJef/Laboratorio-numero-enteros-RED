@@ -10,12 +10,12 @@
       --purp:#6C3CE1;--purp2:#9B6DFF;--cian:#00D4FF;--amarillo:#FFE94D;
       --verde:#2ECC8A;--rojo:#e74c3c;--naranja:#F39C12;
       --fondo:#060410;--blanco:#FFF;--texto:#E8E0FF;
-      /* ---> AJUSTE WCAG 2.1 AA: Contraste de gris elevado <--- */
+      /* Ajuste WCAG 2.1 AA: Contraste de gris elevado */
       --gris:rgba(255,255,255,.72);
     }
     *,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
 
-    /* ---> FOCO DE ACCESIBILIDAD UNIVERSAL (WCAG 2.1) <--- */
+    /* Foco de accesibilidad universal (WCAG 2.1) */
     :focus-visible {
       outline: 2px solid var(--amarillo);
       outline-offset: 3px;
@@ -364,7 +364,6 @@
     </div>
     <div class="team-grid">
 
-      <!-- ---> AJUSTE WCAG 2.1 AA: Los elementos con tabindex="0" ahora activan :focus-visible <--- -->
       <div class="team-card" onclick="lanzarConfeti(event)" tabindex="0" role="button" aria-label="Ricardo Bautista Ramírez">
         <div class="tc-glow tc-glow-1"></div>
         <div class="tc-top tc-top-1"></div>
