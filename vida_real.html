@@ -11,12 +11,10 @@
       --verde:#2ECC8A;--rojo:#e74c3c;--naranja:#F39C12;--celeste:#3498db;
       --fondo:#0A0618;--fondo2:#0D0920;--fondo3:#100C24;
       --blanco:#FFF;--texto:#E8E0FF;
-      /* ---> AJUSTE WCAG 2.1 AA: Contraste de gris elevado de .55 a .72 <--- */
       --gris:rgba(255,255,255,.72);
     }
     *,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
 
-    /* ---> FOCO DE ACCESIBILIDAD UNIVERSAL (WCAG 2.1) <--- */
     :focus-visible {
       outline: 2px solid var(--amarillo);
       outline-offset: 3px;
@@ -27,7 +25,6 @@
     body{font-family:'Space Grotesk',sans-serif;background:var(--fondo);
       color:var(--texto);overflow-x:hidden;padding-bottom:5rem;}
 
-    /* ── PARTÍCULAS ── */
     .particula{position:fixed;font-family:'Nunito',sans-serif;font-weight:900;
       color:rgba(155,109,255,.06);pointer-events:none;
       animation:floatP linear infinite;z-index:0;}
@@ -36,7 +33,6 @@
       10%{opacity:1;}90%{opacity:1;}
       100%{transform:translateY(-10vh) scale(1.2) rotate(20deg);opacity:0;}}
 
-    /* ── HERO ── */
     .hero{
       background:
         radial-gradient(ellipse 55% 70% at 5% 50%,rgba(46,204,138,.1) 0%,transparent 55%),
@@ -66,7 +62,6 @@
       border-radius:20px;padding:.35rem 1rem;
       font-family:'Nunito',sans-serif;font-weight:700;font-size:.8rem;color:rgba(255,255,255,.72);}
 
-    /* ── TRACKER ── */
     .premio-wrap{max-width:1100px;margin:1.5rem auto 0;padding:0 1.5rem;
       display:flex;justify-content:center;position:relative;z-index:2;}
     .premio-track{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);
@@ -81,13 +76,9 @@
     .sim-dot.ok{background:rgba(46,204,138,.18);border-color:var(--verde);
       color:var(--verde);box-shadow:0 0 8px rgba(46,204,138,.3);}
 
-    /* ── WRAP ── */
     .wrap{max-width:1100px;margin:2rem auto 0;padding:0 1.5rem;position:relative;z-index:2;}
-
-    /* ── GRID ── */
     .apps-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:1.5rem;}
 
-    /* ── APP CARD ── */
     .app-card{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.08);
       border-radius:22px;padding:1.8rem 1.6rem;
       display:flex;flex-direction:column;align-items:center;text-align:center;
@@ -110,7 +101,6 @@
     .app-desc{font-size:.83rem;color:var(--gris);margin-bottom:1.2rem;
       line-height:1.7;max-width:290px;}
 
-    /* ── CONTROLES ── */
     .controls{display:flex;gap:.5rem;justify-content:center;flex-wrap:wrap;margin-top:.8rem;}
     .btn-vr{font-family:'Nunito',sans-serif;font-weight:800;font-size:.8rem;
       padding:.5rem .95rem;border-radius:12px;cursor:pointer;transition:all .2s;
@@ -127,7 +117,6 @@
     .status-text{margin-top:.8rem;font-family:'Nunito',sans-serif;font-weight:900;
       font-size:1rem;min-height:26px;transition:color .3s;line-height:1.4;}
 
-    /* ══ APP 1: TERMÓMETRO INTERACTIVO ══ */
     .thermo-scene{display:flex;align-items:flex-end;justify-content:center;
       gap:1.5rem;height:230px;margin-bottom:.8rem;position:relative;}
     .thermo-wrap{display:flex;flex-direction:column;align-items:center;position:relative;}
@@ -155,7 +144,6 @@
     .temp-ciudad{font-family:'Nunito',sans-serif;font-weight:700;font-size:.78rem;
       color:var(--gris);margin-top:.2rem;}
 
-    /* Slider */
     .slider-wrap{width:100%;margin-top:.6rem;}
     input[type=range].thermo-slider{-webkit-appearance:none;width:100%;height:6px;
       border-radius:10px;background:rgba(255,255,255,.1);outline:none;cursor:pointer;}
@@ -173,7 +161,6 @@
     .ciu-btn:hover,.ciu-btn.sel{background:rgba(0,212,255,.15);
       border-color:var(--cian);color:var(--cian);}
 
-    /* ══ APP 2: ASCENSOR ══ */
     .building-wrap{display:flex;gap:1rem;align-items:flex-end;justify-content:center;margin-bottom:.8rem;}
     .building{width:110px;height:240px;
       background:linear-gradient(180deg,rgba(108,60,225,.2),rgba(16,12,36,.9));
@@ -209,7 +196,6 @@
       font-weight:800;font-size:.82rem;color:var(--purp2);margin-top:.6rem;
       min-height:32px;transition:all .3s;width:100%;}
 
-    /* ══ APP 3: BANCO ══ */
     .bank-card{background:linear-gradient(135deg,rgba(108,60,225,.2),rgba(0,212,255,.08));
       border:1px solid rgba(108,60,225,.3);border-radius:16px;
       padding:1.2rem 1.3rem;color:var(--blanco);margin-bottom:.9rem;
@@ -237,7 +223,6 @@
     .meta-card .mn{font-family:'Nunito',sans-serif;font-weight:900;font-size:1rem;color:var(--amarillo);}
     .meta-card .ml{font-size:.68rem;color:var(--gris);}
 
-    /* ══ APP 4: LÍNEA NUMÉRICA RECTA ══ */
     .recta-wrap{width:100%;margin-bottom:1rem;position:relative;}
     .recta-svg{width:100%;overflow:visible;}
     .recta-punto{transition:all .4s cubic-bezier(.4,0,.2,1);}
@@ -258,7 +243,6 @@
       cursor:pointer;transition:border-color .2s;}
     .recta-select:focus{border-color:var(--cian);}
 
-    /* ══ APP 5: FÚTBOL / DIFERENCIA DE GOLES ══ */
     .marcador{display:flex;align-items:center;justify-content:center;gap:1rem;
       margin-bottom:1rem;flex-wrap:wrap;}
     .equipo-box{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);
@@ -294,7 +278,6 @@
     .gol-chip.l{background:rgba(46,204,138,.18);color:var(--verde);border:1px solid rgba(46,204,138,.3);}
     .gol-chip.v{background:rgba(231,76,60,.15);color:var(--rojo);border:1px solid rgba(231,76,60,.3);}
 
-    /* ── VIDEO ── */
     .video-section{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.08);
       border-top:4px solid var(--rojo);border-radius:22px;
       padding:2.5rem 2rem;max-width:860px;margin:2.5rem auto 0;
@@ -307,7 +290,6 @@
       overflow:hidden;border-radius:14px;box-shadow:0 10px 30px rgba(0,0,0,.4);background:#000;}
     .video-container iframe{position:absolute;top:0;left:0;width:100%;height:100%;border:none;}
 
-    /* ── CTA ── */
     .cta-box{background:
       radial-gradient(ellipse 60% 80% at 20% 50%,rgba(108,60,225,.2) 0%,transparent 55%),
       radial-gradient(ellipse 55% 70% at 80% 50%,rgba(0,212,255,.15) 0%,transparent 50%),
@@ -327,7 +309,6 @@
     .btn-cta:hover{transform:translateY(-2px);box-shadow:0 14px 30px rgba(0,212,255,.3);}
     .btn-cta.sec{background:rgba(255,255,255,.07);box-shadow:none;border:1.5px solid rgba(255,255,255,.2);}
 
-    /* ── TOAST ── */
     .toast{position:fixed;bottom:24px;right:24px;z-index:9999;
       padding:1.1rem 1.5rem;border-radius:18px;
       font-family:'Nunito',sans-serif;text-align:center;
@@ -351,7 +332,6 @@
     .app-card:nth-child(4){animation-delay:.3s;}
     .app-card:nth-child(5){animation-delay:.4s;}
 
-    /* ── OBJETIVOS HERO ── */
     .hero-objetivos{display:flex;flex-wrap:wrap;justify-content:center;gap:.45rem;
       margin-bottom:1.2rem;position:relative;z-index:2;}
     .hero-obj-pill{background:rgba(46,204,138,.07);border:1px solid rgba(46,204,138,.22);
@@ -360,7 +340,6 @@
       display:flex;align-items:center;gap:.3rem;}
     .hero-obj-pill::before{content:"▸";color:var(--verde);}
 
-    /* ── DATOS REALES ── */
     .datos-reales{max-width:1100px;margin:1.8rem auto 0;padding:0 1.5rem;}
     .datos-titulo{font-family:'Nunito',sans-serif;font-weight:800;font-size:.72rem;
       text-transform:uppercase;letter-spacing:2.5px;color:var(--verde);
@@ -380,7 +359,6 @@
       color:var(--cian);margin-top:.3rem;background:rgba(0,212,255,.08);
       border-radius:20px;padding:.15rem .6rem;display:inline-block;}
 
-    /* ── INDICADOR DE PROGRESO ── */
     .progreso-sims{max-width:1100px;margin:1.2rem auto 0;padding:0 1.5rem;
       display:flex;align-items:center;gap:.8rem;justify-content:center;flex-wrap:wrap;}
     .prog-sim-label{font-family:'Nunito',sans-serif;font-weight:700;font-size:.78rem;
@@ -393,7 +371,6 @@
     .prog-sim-pct{font-family:'Nunito',sans-serif;font-weight:900;font-size:.85rem;
       color:var(--amarillo);min-width:36px;}
 
-    /* ── REFLEXIÓN POR SIMULADOR ── */
     .reflexion-sim{margin-top:1rem;background:rgba(108,60,225,.08);
       border:1px solid rgba(108,60,225,.22);border-left:3px solid var(--purp2);
       border-radius:0 12px 12px 0;padding:.8rem 1rem;
@@ -403,7 +380,6 @@
     .reflexion-sim .ref-q{font-family:'Nunito',sans-serif;font-weight:800;
       color:var(--amarillo);font-size:.8rem;margin-top:.45rem;display:block;}
 
-    /* ── RETO INTEGRADOR ── */
     .reto-section{max-width:1100px;margin:2.5rem auto 0;padding:0 1.5rem;}
     .reto-inner{background:radial-gradient(ellipse 70% 60% at 50% 40%,rgba(255,233,77,.07) 0%,transparent 60%),
       rgba(255,255,255,.03);border:1px solid rgba(255,233,77,.2);
@@ -446,17 +422,6 @@
       text-align:center;animation:fadeIn .4s ease;}
     .reto-resultado.ok{background:rgba(46,204,138,.12);border:1px solid rgba(46,204,138,.3);color:var(--verde);}
     .reto-resultado.parcial{background:rgba(255,233,77,.08);border:1px solid rgba(255,233,77,.25);color:var(--amarillo);}
-
-    /* ── BANNER PITCH EN VIDA REAL ── */
-    .pitch-vida-banner{max-width:1100px;margin:1.8rem auto 0;padding:0 1.5rem;}
-    .pitch-vida-inner{background:linear-gradient(135deg,rgba(255,233,77,.05),rgba(108,60,225,.08));
-      border:1px solid rgba(255,233,77,.22);border-radius:16px;
-      padding:1.1rem 1.4rem;display:flex;align-items:center;gap:1.1rem;flex-wrap:wrap;}
-    .pitch-vida-inner .pvi-icon{font-size:2rem;flex-shrink:0;}
-    .pitch-vida-inner h5{font-family:'Nunito',sans-serif;font-weight:900;
-      color:var(--amarillo);font-size:.9rem;margin-bottom:.2rem;}
-    .pitch-vida-inner p{font-size:.8rem;color:rgba(255,255,255,.6);line-height:1.55;}
-    .pitch-vida-inner strong{color:var(--cian);}
   </style>
 </head>
 <body>
@@ -471,7 +436,6 @@
     <span class="hero-obj-pill">Conectar enteros con situaciones reales</span>
     <span class="hero-obj-pill">Interpretar positivos y negativos en contexto</span>
     <span class="hero-obj-pill">Resolver problemas con datos reales de Colombia</span>
-    <span class="hero-obj-pill">Preparar argumentos para tu video pitch 🎬</span>
   </div>
   <h1>Los enteros en tu <span>mundo</span></h1>
   <p>Explora 5 simuladores interactivos y descubre cómo los números positivos y negativos están por todas partes. ¡Sin ellos el mundo sería un caos!</p>
@@ -785,8 +749,7 @@
 
 </div><!-- /apps-grid -->
 
-<!-- VIDEO -->
-
+<!-- RETO INTEGRADOR -->
 <div class="reto-section" role="region" aria-label="Reto integrador">
   <div class="reto-inner">
     <div class="reto-label">Reto integrador</div>
@@ -833,16 +796,6 @@
     </div>
     <button class="reto-btn" onclick="verificarReto()">🧩 Verificar respuestas</button>
     <div class="reto-resultado" id="reto-resultado"></div>
-  </div>
-</div>
-
-<div class="pitch-vida-banner">
-  <div class="pitch-vida-inner">
-    <span class="pvi-icon">🎬</span>
-    <div>
-      <h5>¿Listo para tu Video Pitch?</h5>
-      <p>Acabas de explorar <strong>5 contextos reales</strong> con enteros. Elige uno y graba tu pitch explicando cómo los números positivos y negativos aparecen en esa situación. Tienes todo el argumento aquí.</p>
-    </div>
   </div>
 </div>
 
@@ -1230,7 +1183,7 @@ function verificarReto(){
   res.style.display='block';
   if(ok===4){
     res.className='reto-resultado ok';
-    res.innerHTML='🏆 ¡Perfecto! Resolviste los 4 puntos. ¡Ya tienes argumentos sólidos para tu video pitch!';
+    res.innerHTML='🏆 ¡Perfecto! Resolviste los 4 puntos.';
   } else {
     res.className='reto-resultado parcial';
     res.innerHTML=`✨ ${ok}/4 correctas. Revisa los errores y vuelve a intentarlo. ¡Casi!`;
