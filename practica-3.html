@@ -10,12 +10,10 @@
       --purp:#6C3CE1;--purp2:#9B6DFF;--cian:#00D4FF;--amarillo:#FFE94D;
       --verde:#2ECC8A;--rojo:#e74c3c;--fondo:#0A0618;--fondo2:#100C24;
       --fondo3:#130E28;--blanco:#FFFFFF;--texto:#E8E0FF;
-      /* ---> AJUSTE WCAG 2.1 AA: Contraste de gris elevado de .55 a .72 <--- */
       --gris:rgba(255,255,255,.72);
     }
     *,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
 
-    /* ---> FOCO DE ACCESIBILIDAD UNIVERSAL (WCAG 2.1) <--- */
     :focus-visible {
       outline: 2px solid var(--amarillo);
       outline-offset: 3px;
@@ -451,9 +449,6 @@
 </div>
 
 <script>
-/* ════════════════════════════════════════
-   UTILIDADES
-════════════════════════════════════════ */
 function leerLS(k){try{return localStorage.getItem(k);}catch(e){return null;}}
 function escribirLS(k,v){try{localStorage.setItem(k,v);}catch(e){}}
 
@@ -466,15 +461,6 @@ function irAVidaReal(){
   window.open('https://profejef.github.io/LaboratorioNumerosEnteros/vida_real.html','_blank');
 }
 
-
-/* ════════════════════════════════════════
-   PUNTOS — núcleo central
-   Cada vez que sumarPuntos() se llama:
-   1. Actualiza localStorage
-   2. Envía postMessage al index (quien a su
-      vez llama enviarASheets con los datos
-      actualizados)
-════════════════════════════════════════ */
 function actualizarPuntosUI(){
   const el  = document.getElementById('pts-live');
   const raw = leerLS('edu_progreso');
@@ -492,14 +478,12 @@ function sumarPuntos(n){
     const p = JSON.parse(raw);
     p.practicaPuntaje = (p.practicaPuntaje || 0) + n;
 
-    // Marcar sección práctica como visitada
     if(!p.seccionesVisitadas) p.seccionesVisitadas = [];
     if(!p.seccionesVisitadas.includes('practica'))
       p.seccionesVisitadas.push('practica');
 
     escribirLS('edu_progreso', JSON.stringify(p));
 
-    // ── Notificar al index con los puntos actuales ──
     window.parent.postMessage({
       action: 'actualizarPuntos',
       seccion: 'practica',
@@ -511,12 +495,8 @@ function sumarPuntos(n){
   }catch(e){}
 }
 
-// Inicializar UI al cargar
 actualizarPuntosUI();
 
-/* ════════════════════════════════════════
-   BLOQUE 1 — QUIZ CONCEPTUAL
-════════════════════════════════════════ */
 const respuestasCorrectas = {1:'b', 2:'c', 3:'b', 4:'c', 5:'b'};
 const feedbackOk = {
   1:'✅ ¡Correcto! ℕ ⊂ ℤ significa que los naturales están contenidos en los enteros.',
@@ -556,7 +536,7 @@ function responderQuiz(n, op){
     mn.textContent  = correctasBloque1;
     mn.classList.add('pop');
     setTimeout(() => mn.classList.remove('pop'), 350);
-    sumarPuntos(5);   // +5 xp por respuesta correcta
+    sumarPuntos(5);
   } else {
     card.classList.add('incorrecta');
     fb.textContent = feedbackErr[n];
@@ -564,9 +544,6 @@ function responderQuiz(n, op){
   }
 }
 
-/* ════════════════════════════════════════
-   BLOQUE 2 — TABLA DE OPERACIONES
-════════════════════════════════════════ */
 const filasDatos = [
   {expr:'(+7) + (+4)',  regla:'Mismo signo (+) → suma',                                          resp:11},
   {expr:'(−7) + (−4)',  regla:'Mismo signo (−) → suma',                                          resp:-11},
@@ -604,7 +581,7 @@ function verificarFila(i){
     est.textContent = '✅';
     if(estadoTabla[i] === null){
       estadoTabla[i] = true;
-      sumarPuntos(3);   // +3 xp por fila correcta
+      sumarPuntos(3);
     }
   } else {
     inp.className   = 'resp-input err';
@@ -614,9 +591,6 @@ function verificarFila(i){
 }
 renderTabla();
 
-/* ════════════════════════════════════════
-   BLOQUE 3 — PROBLEMAS CONTEXTUALIZADOS
-════════════════════════════════════════ */
 function togglePista(n){
   document.getElementById('pista-'+n).classList.toggle('visible');
 }
@@ -634,7 +608,7 @@ function verificarProblema(n, correcto){
     fb.className   = 'feedback-prob ok';
     if(!probRespondidos.has(n)){
       probRespondidos.add(n);
-      sumarPuntos(8);   // +8 xp por problema correcto
+      sumarPuntos(8);
     }
   } else {
     inp.className  = 'prob-input err';
@@ -643,9 +617,6 @@ function verificarProblema(n, correcto){
   }
 }
 
-/* ════════════════════════════════════════
-   BLOQUE 4 — ORDENAR ENTEROS (Actualizado Accesibilidad)
-════════════════════════════════════════ */
 const numOrdenar    = [-8, -3, 0, 2, -1, 5, -5, 7];
 const ordenCorrecto = [...numOrdenar].sort((a,b) => a - b);
 let poolActual  = [...numOrdenar];
@@ -667,9 +638,8 @@ function renderChips(){
     btn.textContent = (n > 0 ? '+' : '') + n;
     btn.setAttribute('role','listitem');
     btn.setAttribute('aria-label','Número '+(n>0?'+'+n:n)+', haz clic o presiona Enter para moverlo');
-    btn.setAttribute('tabindex', '0'); // ---> Accesibilidad teclado
+    btn.setAttribute('tabindex', '0');
     btn.onclick = () => moverAZona(n, i);
-    // ---> Accesibilidad teclado
     btn.onkeydown = (e) => { 
       if(e.key === 'Enter' || e.key === ' ') { 
         e.preventDefault(); 
@@ -685,9 +655,8 @@ function renderChips(){
     btn.textContent = (n > 0 ? '+' : '') + n;
     btn.setAttribute('role','listitem');
     btn.setAttribute('aria-label','Número '+(n>0?'+'+n:n)+' en posición '+(i+1)+', haz clic o presiona Enter para devolver');
-    btn.setAttribute('tabindex', '0'); // ---> Accesibilidad teclado
+    btn.setAttribute('tabindex', '0');
     btn.onclick = () => devolverAPool(n, i);
-    // ---> Accesibilidad teclado
     btn.onkeydown = (e) => { 
       if(e.key === 'Enter' || e.key === ' ') { 
         e.preventDefault(); 
@@ -704,7 +673,6 @@ function moverAZona(n, idx){
   poolActual.splice(idx, 1);
   zonaActual.push(n);
   renderChips();
-  // Regresar el foco de teclado a la zona de origen o a la nueva si el usuario usa teclado
   const btn = document.querySelector('#zona-chips button:last-child');
   if(btn) btn.focus();
 }
@@ -733,7 +701,7 @@ function verificarOrden(){
     fb.className = 'feedback-orden ok';
     if(!ordenYaGano){
       ordenYaGano = true;
-      sumarPuntos(10);   // +10 xp por ordenar correctamente
+      sumarPuntos(10);
     }
   } else {
     fb.innerHTML = '❌ No es el orden correcto. Recuerda: los más negativos van primero. Inténtalo de nuevo.';
