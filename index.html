@@ -245,7 +245,7 @@
 
 <script>
 /* ════════════════════════════════════════════
-   SCORM 1.2 WRAPPER (Agregado)
+   SCORM 1.2 WRAPPER & SHEETS INTEGRATION
 ════════════════════════════════════════════ */
 var scormAPI = null;
 function getAPI(windowObj) {
@@ -270,17 +270,25 @@ window.addEventListener('unload', function() {
 });
 
 const SHEETS_URL = 'https://script.google.com/macros/s/AKfycbwADFi-vW_MbxXOz3_XFHeTxrZ60ZKh5jwnV8bVDxaGssnXKtLiBmnlb-DfLNcmJCCW/exec';
+let tiempoInicioSesion = Date.now();
 
-function enviarASheets(tipo, datos) {
+function enviarASheets(tipo, datos, intentos = 3) {
   if (tipo === 'practica') return Promise.resolve();
+  
+  const minutosInvertidos = Math.round((Date.now() - tiempoInicioSesion) / 60000);
+  const estadoCompleto = leerLS(SK.progreso) || '{}';
   const now = new Date();
+  
   const payload = Object.assign({
     tipo,
     fecha:       now.toLocaleDateString('es-CO'),
     hora:        now.toLocaleTimeString('es-CO', { hour:'2-digit', minute:'2-digit' }),
     timestamp:   now.toISOString(),
+    tiempo_sesion_minutos: minutosInvertidos,
+    json_estado: estadoCompleto,
     dispositivo: /Mobi|Android/i.test(navigator.userAgent) ? 'Móvil' : 'Escritorio'
   }, datos);
+  
   return fetch(SHEETS_URL, {
     method:  'POST',
     mode:    'no-cors',
@@ -291,7 +299,15 @@ function enviarASheets(tipo, datos) {
       ? `📊 ${datos.puntos_evaluacion} pts — ${datos.aprobado === 'Sí ✅' ? '¡Aprobado! ✅' : 'No aprobado ❌'}`
       : '📋 Registro guardado ✓';
     mostrarSheetsBadge(msg);
-  }).catch(() => console.warn('[Sheets] Sin conexión:', payload));
+  }).catch((error) => {
+    if (intentos > 1) {
+      console.warn(`[Sheets] Red inestable. Reintentando... quedan ${intentos - 1} intentos`);
+      setTimeout(() => enviarASheets(tipo, datos, intentos - 1), 3000);
+    } else {
+      console.warn('[Sheets] Error definitivo:', error);
+      mostrarSheetsBadge('⚠️ Guardado localmente (Sin conexión a internet)');
+    }
+  });
 }
 
 function mostrarSheetsBadge(msg) {
@@ -562,8 +578,10 @@ window.addEventListener('message', e => {
         nombre,
         puntos_evaluacion: ptsEval,
         aprobado,
-        correctas:         d.correctas || '',
-        evento:            'Evaluación completada'
+        correctas:             d.correctas || '',
+        tiempo_pausa_segundos: d.tiempo_pausa || 0,
+        cantidad_pausas:       d.cantidad_pausas || 0,
+        evento:                'Evaluación completada'
       });
     } catch(err) { console.warn('[index] evaluacion:', err); }
     mostrarToast(
