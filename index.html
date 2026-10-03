@@ -265,8 +265,16 @@ function initSCORM() {
   }
 }
 window.addEventListener('load', initSCORM);
-window.addEventListener('unload', function() {
-  if (scormAPI) { scormAPI.LMSCommit(""); scormAPI.LMSFinish(""); }
+window.addEventListener('beforeunload', function() {
+  if (scormAPI) {
+    const segTotal = Math.floor((Date.now() - tiempoInicioSesion) / 1000);
+    const hh = String(Math.floor(segTotal / 3600)).padStart(2, '0');
+    const mm = String(Math.floor((segTotal % 3600) / 60)).padStart(2, '0');
+    const ss = String(segTotal % 60).padStart(2, '0');
+    scormAPI.LMSSetValue("cmi.core.session_time", `${hh}:${mm}:${ss}`);
+    scormAPI.LMSCommit("");
+    scormAPI.LMSFinish("");
+  }
 });
 
 const SHEETS_URL = 'https://script.google.com/macros/s/AKfycbwADFi-vW_MbxXOz3_XFHeTxrZ60ZKh5jwnV8bVDxaGssnXKtLiBmnlb-DfLNcmJCCW/exec';
@@ -420,7 +428,7 @@ function resetearPerfil() {
   let pts = 0, secc = 0;
   try { const p = JSON.parse(raw); pts = p.practicaPuntaje||0; secc = (p.seccionesVisitadas||[]).length; } catch(e) {}
   const msg = (pts > 0 || secc > 0)
-    ? `⚠️ Tienes ${pts} XP y ${secc} sección(es) visitada(s).\n¿Borrar TODO el progreso de "${nombre}"?`
+    ? `⚠️️ Tienes ${pts} XP y ${secc} sección(es) visitada(s).\n¿Borrar TODO el progreso de "${nombre}"?`
     : `¿Cambiar de usuario?`;
   if (confirm(msg)) { borrarLS(SK.estudiante); borrarLS(SK.progreso); location.reload(); }
 }
@@ -565,6 +573,15 @@ window.addEventListener('message', e => {
                     : d.pct              !== undefined ? Number(d.pct)
                     : 0;
       const aprobado = ptsEval >= 70 ? 'Sí ✅' : 'No ❌';
+      
+      // === COMUNICACIÓN DIRECTA CON SCORM DESDE LA VENTANA PRINCIPAL ===
+      if (scormAPI) {
+        scormAPI.LMSSetValue("cmi.core.score.raw", ptsEval.toString());
+        scormAPI.LMSSetValue("cmi.core.lesson_status", ptsEval >= 70 ? "passed" : "failed");
+        scormAPI.LMSCommit("");
+      }
+      // =================================================================
+
       p.ultimaNota         = ptsEval;
       p.notaEvaluacion     = ptsEval;
       p.evaluacionAprobada = ptsEval >= 70;
