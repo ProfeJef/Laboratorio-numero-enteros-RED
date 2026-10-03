@@ -245,33 +245,55 @@
 
 <script>
 /* ════════════════════════════════════════════
-   SCORM 1.2 WRAPPER & SHEETS INTEGRATION
+   SCORM 1.2 WRAPPER & SHEETS INTEGRATION (ROBUSTO)
 ════════════════════════════════════════════ */
 var scormAPI = null;
-function getAPI(windowObj) {
-  var theAPI = null, attempts = 0;
-  while ((windowObj.API == null) && (windowObj.parent != null) && (windowObj.parent != windowObj)) {
+
+// Buscador recursivo de la API de SCORM (Escala por todos los iframes)
+function findSCORMAPI(win) {
+  var attempts = 0;
+  while ((win.API == null) && (win.parent != null) && (win.parent != win)) {
     attempts++;
-    if (attempts > 7) return null;
-    windowObj = windowObj.parent;
+    if (attempts > 10) return null;
+    win = win.parent;
   }
-  return windowObj.API;
+  return win.API;
 }
+
 function initSCORM() {
-  scormAPI = getAPI(window);
+  scormAPI = findSCORMAPI(window);
   if (scormAPI) {
     scormAPI.LMSInitialize("");
-    scormAPI.LMSSetValue("cmi.core.lesson_status", "incomplete");
+    const status = scormAPI.LMSGetValue("cmi.core.lesson_status");
+    if (status === "not attempted" || status === "unknown" || status === "") {
+      scormAPI.LMSSetValue("cmi.core.lesson_status", "incomplete");
+      scormAPI.LMSCommit("");
+    }
   }
 }
+
+// Función dedicada para enviar la nota al LMS
+function guardarNotaSCORM(nota) {
+  if (!scormAPI) scormAPI = findSCORMAPI(window);
+  if (scormAPI) {
+    scormAPI.LMSSetValue("cmi.core.score.raw", nota.toString());
+    scormAPI.LMSSetValue("cmi.core.lesson_status", nota >= 70 ? "passed" : "failed");
+    scormAPI.LMSCommit(""); // Fuerza el guardado inmediato en el LMS
+  } else {
+    console.warn("SCORM API no encontrada al intentar guardar la nota.");
+  }
+}
+
 window.addEventListener('load', initSCORM);
+
+// Al cerrar la pestaña, guarda el tiempo con el formato exacto de SCORM 1.2 (HHHH:MM:SS.SS)
 window.addEventListener('beforeunload', function() {
   if (scormAPI) {
     const segTotal = Math.floor((Date.now() - tiempoInicioSesion) / 1000);
-    const hh = String(Math.floor(segTotal / 3600)).padStart(2, '0');
+    const hh = String(Math.floor(segTotal / 3600)).padStart(4, '0'); 
     const mm = String(Math.floor((segTotal % 3600) / 60)).padStart(2, '0');
     const ss = String(segTotal % 60).padStart(2, '0');
-    scormAPI.LMSSetValue("cmi.core.session_time", `${hh}:${mm}:${ss}`);
+    scormAPI.LMSSetValue("cmi.core.session_time", `${hh}:${mm}:${ss}.00`);
     scormAPI.LMSCommit("");
     scormAPI.LMSFinish("");
   }
@@ -309,10 +331,8 @@ function enviarASheets(tipo, datos, intentos = 3) {
     mostrarSheetsBadge(msg);
   }).catch((error) => {
     if (intentos > 1) {
-      console.warn(`[Sheets] Red inestable. Reintentando... quedan ${intentos - 1} intentos`);
       setTimeout(() => enviarASheets(tipo, datos, intentos - 1), 3000);
     } else {
-      console.warn('[Sheets] Error definitivo:', error);
       mostrarSheetsBadge('⚠️ Guardado localmente (Sin conexión a internet)');
     }
   });
@@ -428,7 +448,7 @@ function resetearPerfil() {
   let pts = 0, secc = 0;
   try { const p = JSON.parse(raw); pts = p.practicaPuntaje||0; secc = (p.seccionesVisitadas||[]).length; } catch(e) {}
   const msg = (pts > 0 || secc > 0)
-    ? `⚠️️ Tienes ${pts} XP y ${secc} sección(es) visitada(s).\n¿Borrar TODO el progreso de "${nombre}"?`
+    ? `⚠ Tienes ${pts} XP y ${secc} sección(es) visitada(s).\n¿Borrar TODO el progreso de "${nombre}"?`
     : `¿Cambiar de usuario?`;
   if (confirm(msg)) { borrarLS(SK.estudiante); borrarLS(SK.progreso); location.reload(); }
 }
@@ -560,6 +580,7 @@ window.addEventListener('message', e => {
     return;
   }
 
+  // === AQUÍ SE RECIBE LA NOTA DE LA EVALUACIÓN ===
   if (
     action === 'evaluacionAprobada'   ||
     action === 'evaluaciónAprobada'   ||
@@ -574,13 +595,8 @@ window.addEventListener('message', e => {
                     : 0;
       const aprobado = ptsEval >= 70 ? 'Sí ✅' : 'No ❌';
       
-      // === COMUNICACIÓN DIRECTA CON SCORM DESDE LA VENTANA PRINCIPAL ===
-      if (scormAPI) {
-        scormAPI.LMSSetValue("cmi.core.score.raw", ptsEval.toString());
-        scormAPI.LMSSetValue("cmi.core.lesson_status", ptsEval >= 70 ? "passed" : "failed");
-        scormAPI.LMSCommit("");
-      }
-      // =================================================================
+      // Llamada directa y centralizada a la API SCORM
+      guardarNotaSCORM(ptsEval);
 
       p.ultimaNota         = ptsEval;
       p.notaEvaluacion     = ptsEval;
@@ -591,6 +607,7 @@ window.addEventListener('message', e => {
       escribirLS(SK.progreso, JSON.stringify(p));
       actualizarPuntosNav();
       actualizarProgresoNav();
+      
       enviarASheets('evaluacion', {
         nombre,
         puntos_evaluacion: ptsEval,
@@ -603,8 +620,8 @@ window.addEventListener('message', e => {
     } catch(err) { console.warn('[index] evaluacion:', err); }
     mostrarToast(
       Number((leerLS(SK.progreso) && JSON.parse(leerLS(SK.progreso)).notaEvaluacion) || 0) >= 70
-        ? '🏆 ¡Aprobaste! Resultado enviado al docente ✅'
-        : '📋 Evaluación finalizada. Resultado enviado al docente'
+        ? '🏆 ¡Aprobaste! Resultado guardado ✅'
+        : '📋 Evaluación finalizada. Resultado guardado'
     );
     return;
   }
