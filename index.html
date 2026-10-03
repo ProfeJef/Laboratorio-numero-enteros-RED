@@ -245,19 +245,39 @@
 
 <script>
 /* ════════════════════════════════════════════
-   SCORM 1.2 WRAPPER & SHEETS INTEGRATION (ROBUSTO)
+   SCORM 1.2 WRAPPER (BÚSQUEDA AVANZADA FRAMES + POPUPS)
 ════════════════════════════════════════════ */
 var scormAPI = null;
 
-// Buscador recursivo de la API de SCORM (Escala por todos los iframes)
+// Buscador estándar de la industria para SCORM 1.2
 function findSCORMAPI(win) {
   var attempts = 0;
+  
+  // 1. Buscar hacia arriba en los iframes (si está incrustado)
   while ((win.API == null) && (win.parent != null) && (win.parent != win)) {
     attempts++;
-    if (attempts > 10) return null;
+    if (attempts > 10) break;
     win = win.parent;
   }
-  return win.API;
+  if (win.API !== null && win.API !== undefined) {
+    return win.API;
+  }
+  
+  // 2. Si no se encontró, buscar en la ventana original (si se abrió en un Popup)
+  var currentWin = window;
+  if (currentWin.opener !== null && currentWin.opener !== undefined) {
+    var openerWin = currentWin.opener;
+    attempts = 0;
+    while ((openerWin.API == null) && (openerWin.parent != null) && (openerWin.parent != openerWin)) {
+      attempts++;
+      if (attempts > 10) break;
+      openerWin = openerWin.parent;
+    }
+    if (openerWin.API !== null && openerWin.API !== undefined) {
+      return openerWin.API;
+    }
+  }
+  return null; // Si definitivamente no hay LMS
 }
 
 function initSCORM() {
@@ -269,6 +289,8 @@ function initSCORM() {
       scormAPI.LMSSetValue("cmi.core.lesson_status", "incomplete");
       scormAPI.LMSCommit("");
     }
+  } else {
+    console.warn("LMS no detectado. El curso funcionará de forma local.");
   }
 }
 
@@ -279,21 +301,19 @@ function guardarNotaSCORM(nota) {
     scormAPI.LMSSetValue("cmi.core.score.raw", nota.toString());
     scormAPI.LMSSetValue("cmi.core.lesson_status", nota >= 70 ? "passed" : "failed");
     scormAPI.LMSCommit(""); // Fuerza el guardado inmediato en el LMS
-  } else {
-    console.warn("SCORM API no encontrada al intentar guardar la nota.");
   }
 }
 
 window.addEventListener('load', initSCORM);
 
-// Al cerrar la pestaña, guarda el tiempo con el formato exacto de SCORM 1.2 (HHHH:MM:SS.SS)
+// Al cerrar la pestaña, guarda el tiempo con el formato exacto de SCORM 1.2 (HHHH:MM:SS)
 window.addEventListener('beforeunload', function() {
   if (scormAPI) {
     const segTotal = Math.floor((Date.now() - tiempoInicioSesion) / 1000);
     const hh = String(Math.floor(segTotal / 3600)).padStart(4, '0'); 
     const mm = String(Math.floor((segTotal % 3600) / 60)).padStart(2, '0');
     const ss = String(segTotal % 60).padStart(2, '0');
-    scormAPI.LMSSetValue("cmi.core.session_time", `${hh}:${mm}:${ss}.00`);
+    scormAPI.LMSSetValue("cmi.core.session_time", `${hh}:${mm}:${ss}`);
     scormAPI.LMSCommit("");
     scormAPI.LMSFinish("");
   }
