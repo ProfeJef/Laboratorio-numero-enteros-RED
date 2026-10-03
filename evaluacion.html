@@ -740,7 +740,7 @@ const BANCO_VF = [
     fb_err:'❌ Es FALSO. |−7|=7, nunca negativo.'
   },
   {
-    ctx:'🏟️ <strong>Clasificación</strong><br>El equipo tiene diferencia de goles −1. Recibe 2 goles más (sin meter ninguno). Marta dice: "Ahora tiene diferencia −3."',
+    ctx:'🏟️️ <strong>Clasificación</strong><br>El equipo tiene diferencia de goles −1. Recibe 2 goles más (sin meter ninguno). Marta dice: "Ahora tiene diferencia −3."',
     enun:'¿Marta tiene razón?',
     corr:true,
     fb_ok:'✅ VERDADERO. (−1)+(−2)=−3. Recibir goles empeora la diferencia.',
@@ -1093,30 +1093,16 @@ function enviarEvaluacion() {
     escribirLS('edu_progreso', JSON.stringify(p));
   } catch(e) {} }
 
+  // Enviar el puntaje al archivo index.html para que este ejecute la comunicación SCORM
   window.parent.postMessage({
     action:            'evaluacionCompletada',
     nombre:            leerLS('edu_estudiante') || 'Anónimo',
     puntos_evaluacion: puntos,
     aprobado:          puntos >= 70 ? 'Sí ✅' : 'No ❌',
     tiempo_pausa:      tiempoPausaTotal,
-    cantidad_pausas:   cantidadPausas
+    cantidad_pausas:   cantidadPausas,
+    pct:               pct
   }, '*');
-
-  /* ---> INTEGRACIÓN SCORM ROBUSTA <--- */
-  try {
-    let api = null;
-    let win = window;
-    while ((win.API == null) && (win.parent != null) && (win.parent != win)) {
-      win = win.parent;
-    }
-    api = win.API || (window.parent && window.parent.scormAPI);
-    
-    if (api) {
-      api.LMSSetValue("cmi.core.score.raw", pct.toString());
-      api.LMSSetValue("cmi.core.lesson_status", pct >= 70 ? "passed" : "failed");
-      api.LMSCommit("");
-    }
-  } catch(e) { console.warn("Error enviando datos SCORM:", e); }
 }
 
 /* ════════════════════════════════════
