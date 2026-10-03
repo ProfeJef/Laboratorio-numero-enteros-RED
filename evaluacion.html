@@ -11,12 +11,10 @@
       --verde:#2ECC8A;--rojo:#e74c3c;--naranja:#F39C12;
       --fondo:#0A0618;--fondo3:#100C24;
       --blanco:#FFF;--texto:#E8E0FF;
-      /* ---> AJUSTE WCAG 2.1 AA: Contraste de gris elevado de .55 a .72 <--- */
       --gris:rgba(255,255,255,.72);
     }
     *,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
     
-    /* ---> FOCO DE ACCESIBILIDAD UNIVERSAL (WCAG 2.1) <--- */
     :focus-visible {
       outline: 2px solid var(--amarillo);
       outline-offset: 3px;
@@ -906,7 +904,7 @@ function sincLS() {
 ════════════════════════════════════ */
 let tiempoTotal = 60 * 60, tiempoRestante = 60 * 60;
 let timerInt = null, timerActivo = true, timerPausado = false;
-let tiempoPausaTotal = 0; // Segundos
+let tiempoPausaTotal = 0;
 let inicioPausaActual = 0;
 let cantidadPausas = 0;
 
@@ -1104,13 +1102,21 @@ function enviarEvaluacion() {
     cantidad_pausas:   cantidadPausas
   }, '*');
 
+  /* ---> INTEGRACIÓN SCORM ROBUSTA <--- */
   try {
-    if (window.parent && window.parent.scormAPI) {
-      window.parent.scormAPI.LMSSetValue("cmi.core.score.raw", pct);
-      window.parent.scormAPI.LMSSetValue("cmi.core.lesson_status", pct >= 70 ? "passed" : "failed");
-      window.parent.scormAPI.LMSCommit("");
+    let api = null;
+    let win = window;
+    while ((win.API == null) && (win.parent != null) && (win.parent != win)) {
+      win = win.parent;
     }
-  } catch(e) { console.warn("SCORM no detectado."); }
+    api = win.API || (window.parent && window.parent.scormAPI);
+    
+    if (api) {
+      api.LMSSetValue("cmi.core.score.raw", pct.toString());
+      api.LMSSetValue("cmi.core.lesson_status", pct >= 70 ? "passed" : "failed");
+      api.LMSCommit("");
+    }
+  } catch(e) { console.warn("Error enviando datos SCORM:", e); }
 }
 
 /* ════════════════════════════════════
